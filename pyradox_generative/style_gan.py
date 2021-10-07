@@ -311,9 +311,9 @@ def mapping(num_stages, num_layers=8, kernels=512, input_shape=512):
 
 
 class StyleGAN(tf.keras.Model):
-    def __init__(self, z_dim=512, target_res=64, start_res=4, filter_nums=None):
+    def __init__(self, target_res=64, start_res=4, filter_nums=None):
         super().__init__()
-        self.z_dim = z_dim
+        self.z_dim = 512
 
         self.target_res_log2 = log2(target_res)
         self.start_res_log2 = log2(start_res)
