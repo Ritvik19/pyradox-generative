@@ -16,6 +16,18 @@ def discriminator_loss_fn(real, fake):
 
 
 class CycleGAN(keras.Model):
+    """A light weight Cycle GAN trainer class, just plug in the generators
+    and discriminators models and provide the required parameters.
+
+    Args:
+        generator_g (keras.models.Model): Generator G.
+        generator_f (keras.models.Model): Generator F.
+        discriminator_x (keras.models.Model): Discriminator X.
+        discriminator_y (keras.models.Model): Discriminator Y.
+        lambda_cycle (float, optional): Defaults to 10.0.
+        lambda_identity (float, optional): Defaults to 0.5.
+    """
+
     def __init__(
         self,
         generator_g,
@@ -42,6 +54,22 @@ class CycleGAN(keras.Model):
         gen_loss_fn=None,
         disc_loss_fn=None,
     ):
+        """Our very familiar compile function.
+
+        Args:
+            gen_g_optimizer (keras.optimizers): optimizer function for
+                Generator G.
+            gen_f_optimizer (keras.optimizers): optimizer function for
+                Generator F.
+            disc_x_optimizer (keras.optimizers): optimizer function for
+                Discriminator X.
+            disc_y_optimizer (keras.optimizers): optimizer function for
+                Discriminator Y.
+            gen_loss_fn (keras.losses, optional): loss fuction for the generators.
+                Defaults to one mentioned in the original paper.
+            disc_loss_fn (keras.losses, optional): loss fuction for the discriminators.
+                Defaults to one mentioned in the original paper.
+        """
         super().compile()
         self.gen_g_optimizer = gen_g_optimizer
         self.gen_f_optimizer = gen_f_optimizer

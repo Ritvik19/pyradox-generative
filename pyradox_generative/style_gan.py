@@ -311,6 +311,18 @@ def mapping(num_stages, num_layers=8, kernels=512, input_shape=512):
 
 
 class StyleGAN(tf.keras.Model):
+    """A light weight Style GAN trainer class, just plug in the target and
+    start resolution and provide the number of filters for each resolution in
+    the U-Net.
+
+    Args:
+        target_res (int, optional): target resolution. Defaults to 64.
+        start_res (int, optional): start resolution. Defaults to 4.
+        filter_nums (dictionary, optional): number of filters for each resolution in
+            the U-Net as a dictionary, where the key represents log2 of the resolution
+            and value represents the number of filters. Defaults to None.
+    """
+
     def __init__(self, target_res=64, start_res=4, filter_nums=None):
         super().__init__()
         self.z_dim = 512
@@ -348,6 +360,16 @@ class StyleGAN(tf.keras.Model):
     def compile(
         self, steps_per_epoch, phase, res, d_optimizer, g_optimizer, *args, **kwargs
     ):
+        """Our very familiar compile function.
+
+        Args:
+            steps_per_epoch (int): number of steps per epoch.
+                Refer to documentation to know how to calculate
+            phase (string): one of "TRANSITION" or "STABLE"
+            res (int): resolution of the image to be generated
+            d_optimizer (keras.optimizers): optimizer function for discriminators.
+            g_optimizer (keras.optimizers): optimizer function for generators.
+        """
         self.loss_weights = kwargs.pop("loss_weights", self.loss_weights)
         self.steps_per_epoch = steps_per_epoch
         if res != 2 ** self.current_res_log2:

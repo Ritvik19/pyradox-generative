@@ -13,6 +13,22 @@ def generator_loss(fake_img):
 
 
 class WGANGP(keras.Model):
+    """A light weight Wasserstein GAN with Gradient Penalty trainer class,
+    just plug in the generator and discriminator models and provide the
+    required parameters.
+
+    Args:
+        discriminator (keras.models.Model): discriminator model with input
+            dimension same as the output dimension of the generator.
+        generator (keras.models.Model): discriminator model with input
+            dimension same as the latent dimension.
+        latent_dim (int): latent dimension.
+        discriminator_extra_steps (int, optional): number of extra steps to
+            train the discriminator only. Defaults to 5.
+        gp_weight (float, optional): weight of gradient penalty.
+            Defaults to 10.0.
+    """
+
     def __init__(
         self,
         discriminator,
@@ -29,6 +45,16 @@ class WGANGP(keras.Model):
         self.gp_weight = gp_weight
 
     def compile(self, d_optimizer, g_optimizer, d_loss_fn=None, g_loss_fn=None):
+        """Our very familiar compile function.
+
+        Args:
+            d_optimizer (keras.optimizers): optimizer function for discriminator.
+            g_optimizer (keras.optimizers): optimizer function for generator.
+            d_loss_fn (keras.losses, optional): loss fuction for the discriminator.
+                Defaults to one mentioned in the original paper.
+            g_loss_fn (keras.losses, optional): loss fuction for the generator.
+                Defaults to one mentioned in the original paper.
+        """
         super().compile()
         self.d_optimizer = d_optimizer
         self.g_optimizer = g_optimizer

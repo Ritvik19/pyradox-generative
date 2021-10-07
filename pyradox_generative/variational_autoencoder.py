@@ -4,6 +4,16 @@ from tensorflow import keras
 
 class VAE(keras.Model):
     def __init__(self, encoder, decoder, **kwargs):
+        """A light weight Variational Auto Encoder trainer class,
+        just plug in the encoder and decoder models and provide just the
+        optimizer during compilation.
+
+        Args:
+            encoder (keras.models.Model): Encoder Model, with a Sampling Layer
+                in the end. Refer to documentation for implementation.
+            decoder (keras.models.Model): Decoder Model.
+        """
+
         super(VAE, self).__init__(**kwargs)
         self.encoder = encoder
         self.decoder = decoder

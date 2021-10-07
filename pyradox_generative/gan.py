@@ -3,6 +3,17 @@ from tensorflow import keras
 
 
 class GAN(keras.Model):
+    """A light weight GAN trainer class, just plug in the generator and
+    discriminator models and provide the required parameters.
+
+    Args:
+        discriminator (keras.models.Model): discriminator model with input
+            dimension same as the output dimension of the generator.
+        generator (keras.models.Model): discriminator model with input
+            dimension same as the latent dimension.
+        latent_dim (int): latent dimension.
+    """
+
     def __init__(self, discriminator, generator, latent_dim):
         super().__init__()
         self.discriminator = discriminator
@@ -10,6 +21,13 @@ class GAN(keras.Model):
         self.latent_dim = latent_dim
 
     def compile(self, d_optimizer, g_optimizer, loss_fn):
+        """Our very familiar compile function.
+
+        Args:
+            d_optimizer (keras.optimizers): optimizer function for discriminator.
+            g_optimizer (keras.optimizers): optimizer function for generator.
+            loss_fn (keras.losses): loss fuction for the GAN.
+        """
         super().compile()
         self.d_optimizer = d_optimizer
         self.g_optimizer = g_optimizer
