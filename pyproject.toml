@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "pyradox-generative"
+version = "0.1.0"
+description = ""
+authors = ["Ritvik Rastogi <rastogiritvik99@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+tensorflow = "2.6.0"
+tensorflow-addons = "0.14.0"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
