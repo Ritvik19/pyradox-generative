@@ -31,11 +31,8 @@ def test_vae():
     )
     x = keras.layers.Conv2D(64, 3, activation="relu", strides=2, padding="same")(x)
     x = keras.layers.Flatten()(x)
-    x = keras.layers.Dense(16, activation="relu")(x)
-    z_mean = keras.layers.Dense(28, name="z_mean")(x)
-    z_log_var = keras.layers.Dense(28, name="z_log_var")(x)
-    z = Sampling()([z_mean, z_log_var])
-    encoder = keras.Model(encoder_inputs, [z_mean, z_log_var, z], name="encoder")
+    encoder_outputs = keras.layers.Dense(16, activation="relu")(x)
+    encoder = keras.Model(encoder_inputs, encoder_outputs, name="encoder")
 
     latent_inputs = keras.Input(shape=(28,))
     x = keras.layers.Dense(7 * 7 * 64, activation="relu")(latent_inputs)
@@ -51,8 +48,11 @@ def test_vae():
     )(x)
     decoder = keras.Model(latent_inputs, decoder_outputs, name="decoder")
 
-    gan = VAE(encoder=encoder, decoder=decoder)
-    gan.compile(keras.optimizers.Adam(learning_rate=0.001))
-    history = gan.fit(dataset)
+    vae = VAE(encoder=encoder, decoder=decoder, latent_dim=28)
+    vae.compile(keras.optimizers.Adam(learning_rate=0.001))
+    history = vae.fit(dataset)
 
     return history
+
+
+test_vae()

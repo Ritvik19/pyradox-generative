@@ -2,11 +2,23 @@ import tensorflow as tf
 from tensorflow import keras
 
 
+class Sampling(keras.layers.Layer):
+    """Uses (z_mean, z_log_var) to sample z, the vector encoding a digit."""
+
+    def call(self, inputs):
+        z_mean, z_log_var = inputs
+        batch = tf.shape(z_mean)[0]
+        dim = tf.shape(z_mean)[1]
+        epsilon = tf.keras.backend.random_normal(shape=(batch, dim))
+        return z_mean + tf.exp(0.5 * z_log_var) * epsilon
+
+
 class VAE(keras.Model):
-    def __init__(self, encoder, decoder, **kwargs):
+    def __init__(self, encoder, decoder, latent_dim):
         """A light weight Variational Auto Encoder trainer class,
-        just plug in the encoder and decoder models and provide just the
-        optimizer during compilation.
+        just plug in the encoder and decoder modelsand provide the required
+        parameters.
+        Note: provide just the optimizer during compilation.
 
         Args:
             encoder (keras.models.Model): Encoder Model, with a Sampling Layer
@@ -14,9 +26,19 @@ class VAE(keras.Model):
             decoder (keras.models.Model): Decoder Model.
         """
 
-        super(VAE, self).__init__(**kwargs)
-        self.encoder = encoder
+        super().__init__()
+        z_mean = keras.layers.Dense(latent_dim, name="z_mean")(
+            encoder.layers[-1].output
+        )
+        z_log_var = keras.layers.Dense(latent_dim, name="z_log_var")(
+            encoder.layers[-1].output
+        )
+        z = Sampling()([z_mean, z_log_var])
+        self.encoder = keras.Model(
+            encoder.input, [z_mean, z_log_var, z], name=encoder.name
+        )
         self.decoder = decoder
+        self.latent_dim = latent_dim
         self.total_loss_tracker = keras.metrics.Mean(name="total_loss")
         self.reconstruction_loss_tracker = keras.metrics.Mean(
             name="reconstruction_loss"
