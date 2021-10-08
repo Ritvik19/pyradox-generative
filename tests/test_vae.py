@@ -53,6 +53,3 @@ def test_vae():
     history = vae.fit(dataset)
 
     return history
-
-
-test_vae()
