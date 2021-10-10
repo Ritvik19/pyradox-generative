@@ -1,4 +1,4 @@
-# pyradox-generative
+# [pyradox-generative](https://github.com/Ritvik19/pyradox-generative)
 
 State of the Art Neural Networks for Generative Deep Learning
 

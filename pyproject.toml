@@ -1,8 +1,9 @@
 [tool.poetry]
 name = "pyradox-generative"
-version = "0.1.0"
-description = ""
+version = "1.0.1"
+description = "State of the Art Neural Networks for Generative Deep Learning"
 authors = ["Ritvik Rastogi <rastogiritvik99@gmail.com>"]
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
