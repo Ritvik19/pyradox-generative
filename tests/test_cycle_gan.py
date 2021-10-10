@@ -1,4 +1,3 @@
-import numpy as np
 import tensorflow_datasets as tfds
 import tensorflow as tf
 from tensorflow import keras

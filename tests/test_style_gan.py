@@ -1,7 +1,6 @@
 from pyradox_generative import StyleGAN
 import numpy as np
 import tensorflow as tf
-import tensorflow.keras as keras
 from functools import partial
 
 
