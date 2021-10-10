@@ -2,7 +2,6 @@ import numpy as np
 import tensorflow_datasets as tfds
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras import layers
 from pyradox_generative import CycleGAN
 
 tfds.disable_progress_bar()
