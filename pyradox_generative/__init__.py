@@ -1,4 +1,4 @@
-__version__ = "0.1.0"
+__version__ = "1.0.0"
 
 from .conditional_gan import ConditionalGAN
 from .cycle_gan import CycleGAN
